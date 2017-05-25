@@ -8,10 +8,11 @@
                         http://www.springframework.org/schema/mvc  
                         http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
 
+
 	<mvc:view-resolvers>
 	    <mvc:jsp cache-views="false" prefix="/WEB-INF/jsp/" suffix=".jsp" />  
 	</mvc:view-resolvers>
-	
+
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<description>配置文件上传</description>
 		<property name="defaultEncoding" value="UTF-8" />
@@ -22,6 +23,5 @@
 	</bean>
 	<!-- 资源重定向(仅作为后台使用不提供静态资源) -->
 	<mvc:resources mapping="upload/**" location="/WEB-INF/upload/" cache-period="300" />
-	<mvc:resources mapping="swagger-ui.html" location="/WEB-INF/resources/"/>
-
+	<import resource="swagger.xml"/>
 </beans>
