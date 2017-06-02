@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,12 +35,20 @@ public class CarController {
     }
     @ApiOperation(value = "获取汽车信息",httpMethod = "GET",notes = "测试程序是否可以联系数据库，dao，service层是否正常")
     @RequestMapping(value = "car",method = RequestMethod.GET)
-    public  String getCar(HttpServletRequest request,HttpServletResponse response){
+    public  String setCar(HttpServletRequest request,HttpServletResponse response){
         log.debug("查询汽车{}","CarController.getCar");
         log.debug("Service:{}",carService);
         String carName = carService.getCar();
+        request.getSession().setAttribute("carName","test_car_name");
         log.debug("车名：{}",carName);
         return "test";
+    }
+
+    @RequestMapping(value = "getCar")
+    @ResponseBody
+    public String getCar(HttpServletRequest request,HttpServletResponse response){
+       String car=(String) request.getSession().getAttribute("carName");
+       return car;
     }
 
 }
