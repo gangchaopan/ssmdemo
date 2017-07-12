@@ -6,10 +6,17 @@
     </Console>  
     
   </appenders>  
-  <loggers>  
-    <root level="trace">  
+  <loggers>
+    <logger name="org.springframework" level="error"></logger>
+    <logger name="org.mybatis.spring" level="error"></logger>
+    <logger name="springfox.documentation" level="error"></logger>
+
+
+    <root level="INFO">
       <appender-ref ref="Console"/>  
-    </root>  
-    
+    </root>
+
+
+
   </loggers>  
 </configuration>

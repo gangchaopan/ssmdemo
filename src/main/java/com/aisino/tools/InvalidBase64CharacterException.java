@@ -1,4 +1,4 @@
-package org.aisino.core.common;
+package com.aisino.tools;
 
 /*
  * Copyright 2014-2016 the original author or authors.

@@ -34,6 +34,8 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+
+
     <aop:config>
         <aop:pointcut expression="execution(* com.aisino.service..*.*(..))" id="productServiceMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="productServiceMethods" />
