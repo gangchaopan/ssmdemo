@@ -3,13 +3,14 @@
   <appenders>  
     <Console name="Console" target="SYSTEM_OUT">  
       <JsonLayout/> <!--使用json格式输出-->
-    </Console>  
-    
+    </Console>
+
   </appenders>  
   <loggers>
-    <logger name="org.springframework" level="error"></logger>
-    <logger name="org.mybatis.spring" level="error"></logger>
-    <logger name="springfox.documentation" level="error"></logger>
+    <logger name="org.springframework" level="OFF"></logger>
+    <logger name="org.mybatis.spring" level="OFF"></logger>
+    <logger name="springfox.documentation" level="OFF"></logger>
+    <logger name="com.alibaba" level="OFF"></logger>
 
 
     <root level="INFO">

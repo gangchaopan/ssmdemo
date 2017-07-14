@@ -48,18 +48,18 @@ public class JsonWebTokenBuild {
     /**
      * 生产JWT
      * @param exp
-     * @param map
+     * @param usermap
      * @return
      * https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32
      */
-    public static  String buildJWT(Date exp,Map map){
+    public static  String buildJWT(Date exp,Map usermap){
 
         try {
             Algorithm algorithm =  Algorithm.HMAC256(SECRET);
             Date currentDate = new Date();
             String token = JWT.create()
-                    .withClaim("uid", (String) map.get("uid"))
-                    .withClaim("isAdmin",(String) map.get("isAdmin"))
+                    .withClaim("uid", (String) usermap.get("uid"))
+                    .withClaim("isAdmin",(String) usermap.get("isAdmin"))
                     .withExpiresAt(exp)         //过期时间
                     .withIssuedAt(currentDate)  //签发时间
                     .withNotBefore(currentDate) //token在此时间之前不能被接收处理
@@ -69,8 +69,9 @@ public class JsonWebTokenBuild {
             return token;
         }catch(Exception e){
             logger.info("构建token失败{}",e);
+            return null;
         }
-        return null;
+
     }
 
 
@@ -80,6 +81,59 @@ public class JsonWebTokenBuild {
      * @return
      */
     public static String verify(String token) throws IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> map = new HashMap<String, Object>();
+        String result=null;
+        logger.info("token值{}",token);
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            JWTVerifier verifier =  JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build();
+            DecodedJWT jwt = verifier.verify(token);
+
+            Map<String, Claim> payloadClaims = jwt.getClaims();
+            Claim uid = payloadClaims.get("uid");
+
+            logger.info("当前登录用户{}",uid.asString());
+
+            map.put("status",true);
+            map.put("mssage","校验toke成功");
+            result= mapper.writeValueAsString(map);
+
+        }catch(UnsupportedEncodingException e){
+            logger.info("校验token失败{}",e);
+
+            map.put("status",false);
+            map.put("mssage","校验token失败");
+            result= mapper.writeValueAsString(map);
+
+        }catch(TokenExpiredException e){
+            logger.info("token验证失败,token已过期",e);
+
+            map.put("status",false);
+            map.put("mssage","token验证失败,token已过期");
+            result= mapper.writeValueAsString(map);
+
+        }catch(JWTVerificationException e){
+
+            logger.info("token非法，请重新登录",e);
+            map.put("status",false);
+            map.put("mssage","token非法，请重新登录");
+            result= mapper.writeValueAsString(map);
+
+        }catch(Exception e){
+            logger.info("token异常，请重新登录",e);
+            map.put("status",false);
+            map.put("mssage","token空值或异常，请重新登录");
+            result= mapper.writeValueAsString(map);
+        }
+
+        return result;
+    }
+
+    public static boolean verifyToken(String token) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         String result=null;
@@ -95,24 +149,21 @@ public class JsonWebTokenBuild {
             Claim uid = payloadClaims.get("uid");
 
             logger.info("当前登录用户{}",uid.asString());
-            result= mapper.writeValueAsString("校验toke成功");
 
+            return true;
         }catch(UnsupportedEncodingException e){
             logger.info("校验token失败{}",e);
-            result= mapper.writeValueAsString("校验token失败");
+            return false;
         }catch(TokenExpiredException e){
             logger.info("token验证失败,token已过期",e);
-            result= mapper.writeValueAsString("token验证失败,token已过期");
-
+            return false;
         }catch(JWTVerificationException e){
-            result= mapper.writeValueAsString("token非法，请重新登录");
             logger.info("token非法，请重新登录",e);
-
+            return false;
         }catch(Exception e){
-            result= mapper.writeValueAsString("token异常，请重新登录");
             logger.info("token异常，请重新登录",e);
+            return false;
         }
 
-        return result;
     }
 }

@@ -27,9 +27,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Mr.Pan-API").description("©2017 Copyright. Powered By Mr.Pan.")
-                .contact(new Contact("API", "", "593358472@qq.com")).license("Apache License Version 2.0")
-                .licenseUrl("").version("2.0").build();
+        return new ApiInfoBuilder().title("CMS文档").description("©2017 Copyright. Powered By Mr.Pan.")
+               .build();
     }
 
 }

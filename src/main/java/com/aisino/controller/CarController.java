@@ -2,7 +2,8 @@ package com.aisino.controller;
 
 
 import com.aisino.service.CarService;
-import com.wordnik.swagger.annotations.ApiOperation;
+
+import io.swagger.annotations.ApiOperation;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.slf4j.Logger;

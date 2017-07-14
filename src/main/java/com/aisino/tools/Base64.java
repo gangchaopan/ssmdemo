@@ -26,7 +26,7 @@ package com.aisino.tools;
  * @author Luke Taylor
  * @since 1.2.2
  */
-final class Base64 {
+public final class Base64 {
 
 	/** No options specified. Value is zero. */
 	public final static int NO_OPTIONS = 0;
