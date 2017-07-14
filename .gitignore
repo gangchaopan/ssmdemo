@@ -2,4 +2,6 @@
 .idea/*
 .idea/workspace.xml
 .idea/artifacts/ssmdemo_war_exploded.xml
+.DS_Store
+workspace.xml
 
