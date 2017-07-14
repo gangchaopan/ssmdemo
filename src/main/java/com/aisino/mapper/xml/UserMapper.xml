@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aisino.mapper.UserMapper">
+	<!-- ############################## -->
+	<!-- ###### 查询  根据账号,id###### -->
+	<!-- ############################## -->
+	<select id="getUser" parameterType="map" resultType="com.aisino.model.UserPO">
+		<if test="username != null and username!=''">
+			SELECT userId,username,password FROM USER WHERE username=#{username}
+		</if>
+		<if test="userId != null and username!=''">
+			SELECT openId,type,name,createTime FROM USER WHERE userId=#{userId}
+		</if>
+	</select>
+
+</mapper>
