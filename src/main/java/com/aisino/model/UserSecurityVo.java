@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by gangchaopan on 2017/7/14.
  */
-public class UserSecurityVo implements Serializable{
+public class UserSecurityVO implements Serializable{
 
     /**
      * 用户ID

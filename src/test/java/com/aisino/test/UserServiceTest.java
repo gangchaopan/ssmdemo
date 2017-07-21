@@ -1,6 +1,6 @@
 package com.aisino.test;
 
-import com.aisino.model.UserSecurityVo;
+import com.aisino.model.UserSecurityVO;
 import com.aisino.service.UserService;
 import com.aisino.tools.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -29,7 +29,7 @@ public class UserServiceTest {
     @Test
     public void testGetUserByUsername(){
         String username="test";
-        UserSecurityVo user = userService.findUserByUsername(username);
+        UserSecurityVO user = userService.findUserByUsername(username);
         logger.info(user.toString());
     }
 
@@ -37,7 +37,7 @@ public class UserServiceTest {
     public void testVerifyByPwd() {
         String username = "test";
         String str = "test";
-        UserSecurityVo user = userService.findUserByUsername(username);
+        UserSecurityVO user = userService.findUserByUsername(username);
         String pwd = user.getPassword();
 
        byte[] md5str1 = DigestUtils.md5(Base64.encode(str.getBytes()));

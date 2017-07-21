@@ -1,10 +1,7 @@
 package com.aisino.service;
 
-import com.aisino.model.UserCommonVo;
-import com.aisino.model.UserPO;
-import com.aisino.model.UserSecurityVo;
-
-import java.util.Map;
+import com.aisino.model.UserCommonVO;
+import com.aisino.model.UserSecurityVO;
 
 /**
  * Created by gangchaopan on 2017/7/14.
@@ -16,12 +13,12 @@ public interface UserService {
      * @param username
      * @return
      */
-    UserSecurityVo findUserByUsername(String username);
+    UserSecurityVO findUserByUsername(String username);
 
     /**
      * 根据用户id查找用户
      * @param uid
      * @return
      */
-    UserCommonVo   findUserByUserId(int uid);
+    UserCommonVO findUserByUserId(int uid);
 }

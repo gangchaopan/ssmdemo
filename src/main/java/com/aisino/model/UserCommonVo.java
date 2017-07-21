@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by gangchaopan on 2017/7/14.
  */
-public class UserCommonVo {
+public class UserCommonVO {
     /**
      * 用户ID
      */

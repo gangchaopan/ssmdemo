@@ -1,9 +1,9 @@
 package com.aisino.service.Impl;
 
 import com.aisino.mapper.UserMapper;
-import com.aisino.model.UserCommonVo;
+import com.aisino.model.UserCommonVO;
 import com.aisino.model.UserPO;
-import com.aisino.model.UserSecurityVo;
+import com.aisino.model.UserSecurityVO;
 import com.aisino.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
      * @param username
      * @return
      */
-    public UserSecurityVo findUserByUsername(String username) {
+    public UserSecurityVO findUserByUsername(String username) {
         if(username==null) {
             throw new IllegalArgumentException("用户名不能为空 cannot be null --UserServiceImpl");
         }
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
 
         UserPO  userPO= userMapper.getUser(map);
 
-        UserSecurityVo securityVo = new UserSecurityVo();
+        UserSecurityVO securityVo = new UserSecurityVO();
         securityVo.setUserId(userPO.getUserId());
         securityVo.setUsername(userPO.getUsername());
         securityVo.setPassword(userPO.getPassword());
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
      * @param uid
      * @return
      */
-    public UserCommonVo findUserByUserId(int uid) {
+    public UserCommonVO findUserByUserId(int uid) {
         return null;
     }
 }

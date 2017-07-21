@@ -28,28 +28,34 @@ public class UserAuthFilter extends OncePerRequestFilter {
 
         for (String s : noFilter){
             if (uri.indexOf(s) !=-1){
+                logger.info("地址{},{}",uri,uri.indexOf(s));
                 doFilter = false;
                 break;
             }
         }
 
-        String token = httpServletRequest.getParameter("token");
-        boolean isok = JsonWebTokenBuild.verifyToken(token);
 
-        logger.info("token校验结果:{}",isok);
-        if(!doFilter || !isok){
-            httpServletResponse.setContentType("text/html;charset=utf-8");
-             String  json = JsonWebTokenBuild.verify(token);
-             logger.info("token校验结果:{}",json);
-             PrintWriter writer =httpServletResponse.getWriter();
-             writer.print(json);
-             writer.flush();
-             writer.close();
 
-        }else{
+
+        logger.info("url过滤结果:{}",doFilter);
+        if(!doFilter){
             logger.info("token校验结果:{}","正常");
             // no filter
             filterChain.doFilter(httpServletRequest,httpServletResponse);
+        }else{
+            String token = httpServletRequest.getParameter("token");
+            boolean isok = JsonWebTokenBuild.verifyToken(token);
+            logger.info("token校验结果:{}",isok);
+            if(isok){
+                filterChain.doFilter(httpServletRequest,httpServletResponse);
+            }
+            httpServletResponse.setContentType("text/html;charset=utf-8");
+            String  json = JsonWebTokenBuild.verify(token);
+            logger.info("token校验结果:{}",json);
+            PrintWriter writer =httpServletResponse.getWriter();
+            writer.print(json);
+            writer.flush();
+            writer.close();
         }
 
     }

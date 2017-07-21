@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aisino.mapper.ArticleMapper">
+	<!-- ############################## -->
+	<!-- ###### 添加文章###### -->
+	<!-- ############################## -->
+	<insert id="add" parameterType="map" >
+		insert into
+		article(folderId,path,adminId,title,summary,content,picture,status,`check`,createTime,updateTime,userid,author)
+		values(#{folderId},#{path},#{adminId},#{title},#{summary},#{content},#{picture},#{status},#{check},#{createTime},#{updateTime}
+		,#{userid},#{author})
+		<selectKey resultType="long" keyProperty="articleId">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<!-- ############################## -->
+	<!-- ###### 获取文章列表 ###### -->
+	<!-- ############################## -->
+
+	<select id="list" parameterType="map" resultType="com.aisino.model.ArticleListVO">
+		SELECT  articleId,title,picture,author,viewCount, commentCount FROM  article
+		order by createTime desc
+		limit #{offset},#{rows}
+	</select>
+
+	<!-- ############################## -->
+	<!-- ###### 获取某一篇具体文章 ###### -->
+	<!-- ############################## -->
+	<select id="getByArticleId" parameterType="Long" resultType="com.aisino.model.ArticleDetailVO">
+		SELECT articleId,title,picture,author,viewCount, commentCount,styleId,path,userId,summary,content
+		,createTime  from article where articleId=#{articleId};
+	</select>
+
+</mapper>

@@ -58,7 +58,7 @@ public class JsonWebTokenBuild {
             Algorithm algorithm =  Algorithm.HMAC256(SECRET);
             Date currentDate = new Date();
             String token = JWT.create()
-                    .withClaim("uid", (String) usermap.get("uid"))
+                    .withClaim("uid",  String.valueOf(usermap.get("uid")))
                     .withClaim("isAdmin",(String) usermap.get("isAdmin"))
                     .withExpiresAt(exp)         //过期时间
                     .withIssuedAt(currentDate)  //签发时间
@@ -166,4 +166,46 @@ public class JsonWebTokenBuild {
         }
 
     }
+
+
+
+
+    /**
+     * 获取当前用户的id
+     * @param token
+     * @return
+     */
+    public static String  getUId(String token){
+
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            JWTVerifier verifier =  JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build();
+            DecodedJWT jwt = verifier.verify(token);
+
+            Map<String, Claim> payloadClaims = jwt.getClaims();
+            Claim uid = payloadClaims.get("uid");
+
+            logger.info("当前登录用户{}",uid.asString());
+
+            return uid.asString();
+        }catch(UnsupportedEncodingException e){
+            logger.info("校验token失败{}",e);
+        }catch(TokenExpiredException e){
+            logger.info("token验证失败,token已过期",e);
+        }catch(JWTVerificationException e){
+            logger.info("token非法，请重新登录",e);
+        }catch(Exception e){
+            logger.info("token异常，请重新登录",e);
+        }
+        return null;
+
+
+    }
+
+
+
+
+
 }
